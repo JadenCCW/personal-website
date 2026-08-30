@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+// Listed the way a contact sheet is labelled: place, then when you were there.
+const albums = (await getCollection('photography')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title="photography" description="Film and digital photos by Jaden Chung.">
+  <div class="page-head">
+    <h1>photography</h1>
+  </div>
+
+  {
+    albums.length === 0 ? (
+      <p class="subtitle">Nothing here yet.</p>
+    ) : (
+      <ul class="bullets">
+        {albums.map((album) => (
+          <li>
+            <a href={`/photography/${album.id}`}>
+              {album.data.place}: {album.data.tripDates}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Base>

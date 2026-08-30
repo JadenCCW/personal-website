@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { dotted } from '../../lib/date';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title="writing" description="Things Jaden Chung has written.">
+  <div class="page-head">
+    <h1>writing</h1>
+  </div>
+
+  {
+    posts.length === 0 ? (
+      <p class="subtitle">Nothing here yet.</p>
+    ) : (
+      <div class="rows">
+        {posts.map((post) => (
+          <Fragment>
+            <span class="row-key">{dotted(post.data.date)}</span>
+            <span class="row-val">
+              <a href={`/writing/${post.id}`}>{post.data.title}</a>
+              {post.data.description && <span class="row-note">{post.data.description}</span>}
+            </span>
+          </Fragment>
+        ))}
+      </div>
+    )
+  }
+</Base>

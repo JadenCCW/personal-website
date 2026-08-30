@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+
+const experience = [
+  { when: 'Summer 2026', what: 'Quant Trader Intern, IMC Trading' },
+  { when: 'Summer 2025', what: 'Software Engineering Intern, Stripe' },
+  { when: 'Summer 2024', what: 'Software Engineering Intern, Amazon Web Services' },
+];
+
+const now = [
+  'cooking, and brewing coffee — still chasing decent latte art.',
+  'shooting film and slowly working through the backlog of scans.',
+  'buying more clothes than I have room for.',
+];
+
+const elsewhere = [
+  { href: 'https://github.com/JadenCCW', label: 'github' },
+  { href: 'https://linkedin.com/in/jadenccw', label: 'linkedin' },
+  { href: 'mailto:jaden_chung@brown.edu', label: 'jaden_chung@brown.edu' },
+];
+---
+
+<Base title="Jaden Chung">
+  <div class="page-head">
+    <h1>Jaden Chung 정운서</h1>
+    <p class="subtitle">applied math + cs @ brown · providence, ri</p>
+  </div>
+
+  <p>
+    I'm a student at Brown University pursuing a Sc.B in Applied Mathematics and Computer
+    Science. Best way to reach me is email.
+  </p>
+
+  <Section title="experience">
+    <div class="rows">
+      {
+        experience.map((role) => (
+          <Fragment>
+            <span class="row-key">{role.when}</span>
+            <span class="row-val">{role.what}</span>
+          </Fragment>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title="now" meta="august 2026">
+    <ul class="bullets">
+      {now.map((line) => <li>{line}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="elsewhere">
+    <div class="dots">
+      {elsewhere.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+  </Section>
+</Base>

@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Prose from '../../layouts/Prose.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+
+export async function getStaticPaths() {
+  const albums = await getCollection('photography');
+  return albums.map((album) => ({ params: { slug: album.id }, props: { album } }));
+}
+
+type Props = { album: CollectionEntry<'photography'> };
+
+const { album } = Astro.props;
+const { Content } = await render(album);
+const hasNote = (album.body ?? '').trim().length > 0;
+---
+
+<Prose
+  title={album.data.place}
+  description={`Photos from ${album.data.place}, ${album.data.tripDates}.`}
+  meta={album.data.tripDates}
+  backHref="/photography"
+  backLabel="photography"
+>
+  {
+    hasNote && (
+      <article class="prose">
+        <Content />
+      </article>
+    )
+  }
+
+  <PhotoGrid slug={album.id} dir="photos" alt={album.data.place} />
+</Prose>

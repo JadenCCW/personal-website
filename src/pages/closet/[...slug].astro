@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Prose from '../../layouts/Prose.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import { longDate } from '../../lib/date';
+
+export async function getStaticPaths() {
+  const fits = await getCollection('closet');
+  return fits.map((fit) => ({ params: { slug: fit.id }, props: { fit } }));
+}
+
+type Props = { fit: CollectionEntry<'closet'> };
+
+const { fit } = Astro.props;
+const { Content } = await render(fit);
+const hasNote = (fit.body ?? '').trim().length > 0;
+---
+
+<Prose
+  title={fit.data.title}
+  description={`What went into ${fit.data.title}.`}
+  meta={longDate(fit.data.date)}
+  backHref="/closet"
+  backLabel="closet"
+>
+  {
+    hasNote && (
+      <article class="prose">
+        <Content />
+      </article>
+    )
+  }
+
+  {/* Empty until photos exist in src/assets/closet/<slug>/ -- renders nothing. */}
+  <PhotoGrid slug={fit.id} dir="closet" alt={fit.data.title} />
+
+  <div class="section">
+    <div class="rows">
+      {
+        fit.data.pieces.map((piece) => (
+          <Fragment>
+            <span class="row-key">{piece.brand}</span>
+            <span class="row-val">
+              {piece.link ? <a href={piece.link}>{piece.item}</a> : piece.item}
+              {piece.note && <span class="row-note">{piece.note}</span>}
+            </span>
+          </Fragment>
+        ))
+      }
+    </div>
+  </div>
+</Prose>

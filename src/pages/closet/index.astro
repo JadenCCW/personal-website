@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { dotted } from '../../lib/date';
+
+const fits = (await getCollection('closet')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title="closet" description="What Jaden Chung wears, and what it is.">
+  <div class="page-head">
+    <h1>closet</h1>
+  </div>
+
+  {
+    fits.length === 0 ? (
+      <p class="subtitle">Nothing here yet.</p>
+    ) : (
+      <div class="rows">
+        {fits.map((fit) => (
+          <Fragment>
+            <span class="row-key">{dotted(fit.data.date)}</span>
+            <span class="row-val">
+              <a href={`/closet/${fit.id}`}>{fit.data.title}</a>
+            </span>
+          </Fragment>
+        ))}
+      </div>
+    )
+  }
+</Base>
