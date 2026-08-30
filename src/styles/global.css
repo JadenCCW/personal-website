@@ -1,0 +1,284 @@
+/* ---------------------------------------------------------------
+   The whole design system. There is no CSS framework and no other
+   stylesheet -- if you want to change how the site looks, it's here.
+   --------------------------------------------------------------- */
+
+:root {
+  --bg: #f2f2f2;
+  --fg: #17181a;
+  --muted: #6b7280;
+  --link: #52606d;
+  --rule: #dcdcdc;
+  --measure: 68ch;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  /* fallbacks are declared in astro.config.mjs so they get metric-matched */
+  font-family: var(--font-crimson-pro);
+  font-size: 1.15rem;
+  line-height: 1.55;
+  /* Old-style numerals: digits get ascenders and descenders like lowercase
+     letters, so every date on the site reads as typeset rather than tabular. */
+  font-variant-numeric: oldstyle-nums;
+  background: var(--bg);
+  color: var(--fg);
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- links ---------------------------------------------------- */
+
+a,
+a:visited {
+  /* :visited matched on purpose -- no purple links anywhere */
+  color: var(--link);
+  text-decoration-color: rgb(82 96 109 / 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---- headings ------------------------------------------------- */
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Section headings are lowercase and quiet -- they label, they don't shout. */
+h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin: 0;
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.35rem;
+}
+
+p {
+  margin: 0 0 0.9rem;
+}
+
+/* ---- nav ------------------------------------------------------ */
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 1.25em;
+  row-gap: 0.25em;
+  padding: 0 0 2.5rem;
+  text-transform: lowercase;
+}
+
+.nav a[aria-current='page'] {
+  color: var(--fg);
+  text-decoration-color: rgb(23 24 26 / 0.4);
+}
+
+/* ---- sections ------------------------------------------------- */
+
+.section {
+  margin-top: 2.5rem;
+}
+
+/* Heading on the left, optional meta on the right, sharing a baseline. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.section-meta {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* ---- two-column rows ------------------------------------------ */
+/* Used by experience, and by every index page. Left column is the date or
+   label, right column is the thing itself. Collapses on narrow screens. */
+
+.rows {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  column-gap: 1.25rem;
+  row-gap: 0.45rem;
+  align-items: baseline;
+}
+
+.rows dt,
+.row-key {
+  color: var(--muted);
+  font-size: 0.98rem;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.rows dd,
+.row-val {
+  margin: 0;
+}
+
+.row-note {
+  display: block;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+@media (max-width: 34rem) {
+  .rows {
+    grid-template-columns: 1fr;
+    row-gap: 0.15rem;
+  }
+
+  /* Keep each pair together once they stack. */
+  .rows > .row-val,
+  .rows > dd {
+    margin-bottom: 0.85rem;
+  }
+}
+
+/* ---- lists ---------------------------------------------------- */
+
+.bullets {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.bullets li {
+  margin-bottom: 0.2rem;
+}
+
+.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Middle-dot separated inline list. The ::before is deliberate: Astro's
+   compiler collapses whitespace between inline elements, so a literal
+   " · " typed between two <a>s is not reliable. */
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.dots > * + *::before {
+  content: ' · ';
+  color: var(--muted);
+  white-space: pre;
+}
+
+/* ---- photos --------------------------------------------------- */
+
+.photos {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- prose (markdown body) ------------------------------------ */
+
+.prose {
+  margin-top: 1.5rem;
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose blockquote {
+  margin: 1.25rem 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule);
+  color: var(--muted);
+}
+
+.prose code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+.prose pre {
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  background: #ebebeb;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ---- page header / footer ------------------------------------- */
+
+.page-head {
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+
+.entry-meta {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: 0.35rem 0 0;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.75rem;
+  text-transform: lowercase;
+}
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-transform: lowercase;
+}

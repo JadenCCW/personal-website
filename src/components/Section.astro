@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  /** Optional muted text pinned to the right of the heading, on the same baseline. */
+  meta?: string;
+}
+
+const { title, meta } = Astro.props;
+---
+
+<section class="section">
+  <div class="section-head">
+    <h2>{title}</h2>
+    {meta && <span class="section-meta">{meta}</span>}
+  </div>
+  <slot />
+</section>

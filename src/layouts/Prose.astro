@@ -1,0 +1,26 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Muted line under the title, e.g. a date. */
+  meta?: string;
+  /** Where the "back" link points, e.g. "/writing". */
+  backHref: string;
+  backLabel: string;
+}
+
+const { title, description, meta, backHref, backLabel } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <a class="back" href={backHref}>&#8592; {backLabel}</a>
+
+  <div class="page-head">
+    <h1>{title}</h1>
+    {meta && <p class="entry-meta">{meta}</p>}
+  </div>
+
+  <slot />
+</Base>

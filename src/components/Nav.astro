@@ -1,0 +1,23 @@
+---
+const links = [
+  { href: '/', label: 'home' },
+  { href: '/writing', label: 'writing' },
+  { href: '/photography', label: 'photography' },
+  { href: '/closet', label: 'closet' },
+];
+
+// "/writing/some-post" should still light up the "writing" tab.
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
+---
+
+<nav class="nav">
+  {
+    links.map((link) => (
+      <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))
+  }
+</nav>
