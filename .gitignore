@@ -1,0 +1,26 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated types
+.vercel/
+.netlify/
+
+# environment
+.env
+.env.production
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# never let full-size scans into the repo -- run `npm run photos` instead
+*.tif
+*.tiff
+*.psd
+*.dng
+*.raf
+*.cr2
