@@ -9,7 +9,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Jaden Chung — applied math + cs @ brown.' } = Astro.props;
+const { title, description = 'Jaden Chung - applied math + cs @ brown.' } = Astro.props;
 const pageTitle = title === 'Jaden Chung' ? title : `${title} · Jaden Chung`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
