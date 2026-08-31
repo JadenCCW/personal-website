@@ -14,7 +14,7 @@ Node 22.12+ is required (this machine has 24 LTS).
 
 ## Adding things
 
-**A post** — drop a markdown file in `src/content/writing/`. The filename is the URL.
+**A post** - drop a markdown file in `src/content/writing/`. The filename is the URL.
 
 ```markdown
 ---
@@ -27,9 +27,9 @@ draft: false
 Body goes here.
 ```
 
-**A photo album** — two steps:
+**A photo album** - two steps:
 
-1. Put the images in `src/assets/photos/<slug>/`. Any name, any order — they sort
+1. Put the images in `src/assets/photos/<slug>/`. Any name, any order - they sort
    by filename.
 2. Add `src/content/photography/<slug>.md` with the same slug:
 
@@ -41,9 +41,9 @@ date: 2026-06-03
 ---
 ```
 
-The body is optional — leave it empty and the page is just photos.
+The body is optional - leave it empty and the page is just photos.
 
-**A fit** — add `src/content/closet/<slug>.md`:
+**A fit** - add `src/content/closet/<slug>.md`:
 
 ```markdown
 ---
@@ -63,7 +63,7 @@ Photos are optional here too: `src/assets/closet/<slug>/`.
 
 `npm run photos` reads local film pics folder, skips the `ignore/`
 folder, and writes 2000px WebP into `src/assets/photos/<slug>/`. Source folder
-names map to slugs in `SLUGS` at the top of `scripts/optimize-photos.mjs` — add a
+names map to slugs in `SLUGS` at the top of `scripts/optimize-photos.mjs` - add a
 line there when you add a trip.
 
 Sharp strips EXIF (including GPS) by default. Full-size scans and RAW/TIFF files
