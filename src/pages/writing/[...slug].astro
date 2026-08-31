@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Prose from '../../layouts/Prose.astro';
 import { longDate } from '../../lib/date';
+// Self-hosted, and scoped to posts so the rest of the site never loads it.
+import 'katex/dist/katex.min.css';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing', ({ data }) => !data.draft);

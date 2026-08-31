@@ -30,6 +30,30 @@ photography, closet.
 - Font fallbacks belong in `astro.config.mjs`, not in CSS — Astro appends its own
   generic family to `--font-crimson-pro`, which would shadow anything listed after
   the variable.
+- Astro 7 replaced remark/unified with the Rust **Sätteri** processor, which takes
+  mdast/hast plugins, not remark/rehype ones. We opt back into unified in
+  `astro.config.mjs` so `remark-math` + `rehype-katex` work. Don't "simplify" that
+  away — math would silently stop rendering.
+- The dev server frequently serves a **stale content-collection cache**: a new or
+  edited entry shows up in `npm run build` but not on localhost. Restart with
+  `npx astro dev --force`. `astro dev` also has `stop`/`status`/`logs` subcommands
+  and a `--background` flag.
+
+## Math and diagrams in posts
+
+- Math is `$$…$$` (display) or `$…$` (inline), rendered by KaTeX **at build time** —
+  no math JS reaches the browser. The stylesheet is imported in
+  `src/pages/writing/[...slug].astro`, so only posts pay for it.
+- Diagrams are hand-written inline SVG, not mermaid — mermaid would need either a
+  headless-Chromium build dependency or client JS. All diagram styling lives in
+  `global.css` under `.diagram`, so the markup in a post stays geometry only and
+  inherits the site's type and palette.
+- **A blank line inside raw HTML in markdown ends the HTML block**, and everything
+  after it gets parsed as prose. Keep an SVG contiguous — no blank lines between
+  its elements — or its contents will spill out as text.
+- Wrap a diagram in `<div class="diagram-wrap">`. An SVG scaled to a phone shrinks
+  14px labels to ~7px; the wrapper keeps the diagram at natural size and scrolls it
+  instead.
 
 ## Content
 

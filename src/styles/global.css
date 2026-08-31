@@ -9,6 +9,7 @@
   --muted: #6b7280;
   --link: #52606d;
   --rule: #dcdcdc;
+  --code-bg: #e6e5e1;
   --measure: 68ch;
 }
 
@@ -239,16 +240,87 @@ p {
   font-size: 0.88em;
 }
 
+/* Shiki writes its theme background as an INLINE style on the <pre>, so a plain
+   class rule loses to it. !important is the override; the alternative is
+   Shiki's defaultColor:false + CSS variables, which is far more machinery for
+   one colour. Token colours still come from the github-light theme. */
 .prose pre {
-  padding: 0.9rem 1rem;
+  padding: 0.9rem 1.1rem;
   overflow-x: auto;
-  background: #ebebeb;
+  background: var(--code-bg) !important;
+}
+
+.prose pre code {
+  background: none;
 }
 
 .prose hr {
   border: 0;
   border-top: 1px solid var(--rule);
   margin: 2rem 0;
+}
+
+/* A long equation scrolls inside itself rather than widening the page. */
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0;
+}
+
+/* ---- inline SVG diagrams --------------------------------------- */
+/* Diagrams are hand-written SVG dropped straight into a post. All the
+   styling lives here so the markup in the markdown stays geometry only,
+   and so diagrams inherit the page's type and palette automatically. */
+
+/* An SVG scaled to a narrow viewport shrinks its labels into illegibility
+   (14px becomes ~7px on a phone), so the diagram holds its natural size and
+   scrolls inside this wrapper instead. The page itself never scrolls sideways. */
+.diagram-wrap {
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  min-width: 660px;
+  height: auto;
+  font-family: var(--font-crimson-pro);
+}
+
+.diagram .lane {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.diagram .lane-head {
+  fill: var(--fg);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.diagram .tick {
+  fill: var(--fg);
+}
+
+.diagram .ev {
+  fill: var(--fg);
+  font-size: 14px;
+}
+
+.diagram .ev-note {
+  fill: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.diagram .band {
+  fill: rgb(107 114 128 / 0.1);
+}
+
+.diagram .band-label {
+  fill: var(--muted);
+  font-size: 12.5px;
 }
 
 /* ---- page header / footer ------------------------------------- */

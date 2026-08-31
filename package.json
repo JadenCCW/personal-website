@@ -14,7 +14,11 @@
     "fits": "node scripts/optimize-photos.mjs --src \"C:/Users/goku7/Pictures/fits\" --out src/assets/closet"
   },
   "dependencies": {
-    "astro": "^7.2.9"
+    "@astrojs/markdown-remark": "^7.2.4",
+    "astro": "^7.2.9",
+    "katex": "^0.18.4",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   },
   "allowScripts": {
     "esbuild": true
