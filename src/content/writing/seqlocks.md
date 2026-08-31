@@ -4,7 +4,7 @@ date: 2026-08-30
 description: "Why seqlocks conflict with the C++ memory model"
 ---
 
-_This is my first post, mainly just so that I have something on this board. I wrote about something that I recently read about._
+_This is my first post, mainly just so that I have content on this board. I wrote about something that I recently read about._
 
 A seqlock is useful when data is read often but rarely changed. The writer makes a counter odd, updates the data, then makes the counter even again. A reader will copy the data only when the counter has the same even value before and after the copy.
 
