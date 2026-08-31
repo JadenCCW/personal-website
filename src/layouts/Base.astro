@@ -21,7 +21,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Multi-resolution .ico: 16, 32 and 48px are each drawn separately, so the
+         tab icon is purpose-made rather than a downscale. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
