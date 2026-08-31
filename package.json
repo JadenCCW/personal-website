@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "photos": "node scripts/optimize-photos.mjs"
+    "photos": "node scripts/optimize-photos.mjs",
+    "fits": "node scripts/optimize-photos.mjs --src \"C:/Users/goku7/Pictures/fits\" --out src/assets/closet"
   },
   "dependencies": {
     "astro": "^7.2.9"

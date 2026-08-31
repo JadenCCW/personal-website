@@ -5,9 +5,16 @@
  *   npm run photos -- --force   # re-encode files that already exist
  *   npm run photos -- --src "D:/some/other/folder"
  *
- * Source layout: one folder per trip. The folder name is the album; a folder
- * called "ignore" is skipped. Output goes to src/assets/photos/<slug>/, which is
- * where PhotoGrid.astro looks. Sharp strips EXIF (including GPS) by default.
+ *   npm run fits                    # closet photos: one folder per fit
+ *   npm run fits -- --slug fit-01   # ...or loose files, all into one fit
+ *
+ * Source layout: one folder per trip/fit. The folder name is the album; a
+ * folder called "ignore" is skipped. With --slug the source folder is read as a
+ * single album with that slug instead, which is handy before you have enough
+ * photos to bother sorting them into folders.
+ *
+ * Output goes to <--out>/<slug>/, which is where PhotoGrid.astro looks. Sharp
+ * strips EXIF (including GPS) by default.
  */
 
 import sharp from 'sharp';
@@ -24,6 +31,8 @@ const IMAGE_RE = /\.(png|jpe?g|tiff?)$/i;
 // Folder names carry the place and the dates; the slug is the URL. Anything not
 // listed here gets a slug derived from its folder name.
 const SLUGS = {
+  'Korean National Treasures @ The Art Institute of Chicago (July 2, 2026)':
+    'art-institute-chicago',
   'NYC - Brooklyn + Flushing (March 21- 25, 2026)': 'nyc-brooklyn-flushing',
   'Point Lobos State Natural Reserve (March 7, 2026)': 'point-lobos',
   'Seoul, South Korea (Dec 23, 2025 - Dec 30, 2025)': 'seoul',
@@ -44,13 +53,24 @@ function arg(flag, fallback) {
 }
 
 const src = arg('--src', DEFAULT_SRC);
+const outRoot = arg('--out', OUT_ROOT);
+const oneSlug = arg('--slug', '');
 const force = process.argv.includes('--force');
 
-const albums = (await readdir(src, { withFileTypes: true }))
-  .filter((e) => e.isDirectory() && !SKIP_DIRS.has(e.name.toLowerCase()));
+// Normally one subfolder per album. With --slug, the loose image files sitting
+// directly in --src are treated as a single album with that slug.
+const albums = oneSlug
+  ? [{ slug: oneSlug, inDir: src, label: oneSlug }]
+  : (await readdir(src, { withFileTypes: true }))
+      .filter((e) => e.isDirectory() && !SKIP_DIRS.has(e.name.toLowerCase()))
+      .map((e) => ({
+        slug: SLUGS[e.name] ?? slugify(e.name),
+        inDir: path.join(src, e.name),
+        label: e.name,
+      }));
 
 if (albums.length === 0) {
-  console.error(`No album folders found in ${src}`);
+  console.error(`No album folders found in ${src}. Pass --slug to read loose files.`);
   process.exit(1);
 }
 
@@ -60,16 +80,14 @@ let bytesIn = 0;
 let bytesOut = 0;
 
 for (const album of albums) {
-  const slug = SLUGS[album.name] ?? slugify(album.name);
-  const inDir = path.join(src, album.name);
-  const outDir = path.join(OUT_ROOT, slug);
+  const outDir = path.join(outRoot, album.slug);
   await mkdir(outDir, { recursive: true });
 
-  const files = (await readdir(inDir)).filter((f) => IMAGE_RE.test(f)).sort();
-  console.log(`\n${album.name}\n  -> ${outDir}  (${files.length} photos)`);
+  const files = (await readdir(album.inDir)).filter((f) => IMAGE_RE.test(f)).sort();
+  console.log(`\n${album.label}\n  -> ${outDir}  (${files.length} photos)`);
 
   for (const file of files) {
-    const inPath = path.join(inDir, file);
+    const inPath = path.join(album.inDir, file);
     const outPath = path.join(outDir, `${path.parse(file).name.toLowerCase()}.webp`);
 
     if (!force) {
