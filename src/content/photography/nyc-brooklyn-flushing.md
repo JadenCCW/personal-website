@@ -1,5 +1,5 @@
 ---
-place: "NYC — Brooklyn + Flushing"
+place: "Brooklyn + Flushing, NYC"
 tripDates: "March 21 – 25, 2026"
 date: 2026-03-21
 ---

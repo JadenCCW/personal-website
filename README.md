@@ -61,7 +61,7 @@ Photos are optional here too: `src/assets/closet/<slug>/`.
 
 ## Photos
 
-`npm run photos` reads `C:/Users/goku7/Pictures/film pics`, skips the `ignore/`
+`npm run photos` reads local film pics folder, skips the `ignore/`
 folder, and writes 2000px WebP into `src/assets/photos/<slug>/`. Source folder
 names map to slugs in `SLUGS` at the top of `scripts/optimize-photos.mjs` — add a
 line there when you add a trip.
@@ -71,24 +71,3 @@ are gitignored, so only the web-sized copies are committed.
 
 Flags: `-- --force` to re-encode existing files, `-- --src "D:/path"` for a
 different source folder.
-
-## Structure
-
-```
-src/
-  content.config.ts     the three collection schemas
-  styles/global.css     the entire design system
-  layouts/Base.astro    html shell, nav, footer
-  layouts/Prose.astro   Base + back link + title, for single entries
-  components/           Nav, Section, PhotoGrid
-  pages/                one file per route
-  content/              markdown
-  assets/               images, optimized at build time
-```
-
-## Deploying
-
-Vercel auto-detects Astro — no adapter, no `vercel.json`. Push to GitHub, import
-the repo, done. Change `site` in `astro.config.mjs` if the domain changes.
-
-Optional adds, one line each: `npx astro add sitemap`, `npm i @astrojs/rss`.
