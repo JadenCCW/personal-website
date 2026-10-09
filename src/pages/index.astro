@@ -1,60 +1,69 @@
 ---
-import Base from '../layouts/Base.astro';
-import Section from '../components/Section.astro';
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
 
 // `note` is anything that should sit outside the company link.
 const experience = [
   {
-    when: 'Summer 2026',
-    role: 'Quantitative Trader Intern',
-    org: 'IMC Trading',
-    href: 'https://imc.com',
+    when: "Fall 2026",
+    role: "Intern",
+    org: "Mind Robotics",
+    href: "https://mindrobotics.com",
   },
   {
-    when: 'Spring 2026',
-    role: 'Software Engineer Intern',
-    org: 'Stripe',
-    href: 'https://stripe.com',
-    note: '(again)',
+    when: "Summer 2026",
+    role: "Quantitative Trader Intern",
+    org: "IMC Trading",
+    href: "https://imc.com",
   },
   {
-    when: 'Summer 2025',
-    role: 'Software Engineer Intern',
-    org: 'Stripe',
-    href: 'https://stripe.com',
+    when: "Spring 2026",
+    role: "Software Engineer Intern",
+    org: "Stripe",
+    href: "https://stripe.com",
+    note: "(again)",
   },
   {
-    when: 'Summer 2024',
-    role: 'Software Development Engineer Intern',
-    org: 'Amazon Web Services',
-    href: 'https://aws.amazon.com',
+    when: "Summer 2025",
+    role: "Software Engineer Intern",
+    org: "Stripe",
+    href: "https://stripe.com",
+  },
+  {
+    when: "Summer 2024",
+    role: "Software Development Engineer Intern",
+    org: "Amazon Web Services",
+    href: "https://aws.amazon.com",
   },
 ];
 
 const now = [
-  'cooking and brewing coffee beans from all over the world.',
-  'playing pokemon go and exploring the city to catch \'em all.',
-  'shooting film and slowly working through the backlog of scans.',
-  'buying more clothes than I have room for.',
+  "cooking and brewing coffee beans from all over the world.",
+  "playing pokemon go and exploring the city to catch 'em all.",
+  "shooting film and slowly working through the backlog of scans.",
+  "buying more clothes than I have room for.",
 ];
 
 const elsewhere = [
-  { href: 'https://github.com/JadenCCW', label: 'github' },
-  { href: 'https://linkedin.com/in/jadenccw', label: 'linkedin' },
-  { href: 'https://x.com/jadenccw', label: 'x' },
-  { href: 'mailto:jaden_chung@brown.edu', label: 'jaden_chung@brown.edu' },
+  { href: "https://github.com/JadenCCW", label: "github" },
+  { href: "https://linkedin.com/in/jadenccw", label: "linkedin" },
+  { href: "https://x.com/jadenccw", label: "x" },
+  { href: "mailto:jaden_chung@brown.edu", label: "jaden_chung@brown.edu" },
 ];
 ---
 
 <Base title="Jaden Chung">
   <div class="page-head">
     <h1>Jaden Chung 정운서</h1>
-    <p class="subtitle">applied math + cs @ brown · los angeles, ca + providence, ri</p>
+    <p class="subtitle">
+      applied math + cs @ brown · los angeles, ca + providence, ri
+    </p>
   </div>
 
   <p>
-    I'm a student at Brown University pursuing a Sc.B in Applied Mathematics and Computer
-    Science. I'm interested in systems, machine learning, and finance. Outside of academics, I enjoy food, fashion, and Valorant.
+    I'm a student at Brown University pursuing a Sc.B in Applied Mathematics and
+    Computer Science. I'm interested in systems, machine learning, and finance.
+    Outside of academics, I enjoy food, fashion, and Valorant.
   </p>
 
   <Section title="experience">
@@ -64,11 +73,11 @@ const elsewhere = [
           <Fragment>
             <span class="row-key">{job.when}</span>
             <span class="row-val">
-              {job.role},{' '}
+              {job.role},{" "}
               <a href={job.href} target="_blank" rel="noopener noreferrer">
                 {job.org}
               </a>
-              {job.note ? ` ${job.note}` : ''}
+              {job.note ? ` ${job.note}` : ""}
             </span>
           </Fragment>
         ))
@@ -87,12 +96,12 @@ const elsewhere = [
       {
         elsewhere.map((link) => {
           // mailto: is left alone -- opening it in a tab just orphans a blank one
-          const external = link.href.startsWith('http');
+          const external = link.href.startsWith("http");
           return (
             <a
               href={link.href}
-              target={external ? '_blank' : undefined}
-              rel={external ? 'noopener noreferrer' : undefined}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
             >
               {link.label}
             </a>
